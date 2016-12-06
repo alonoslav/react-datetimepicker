@@ -11,7 +11,7 @@ pass a callback into a prop `getInstance`. This callback should take a single ar
 ### Example
 
 ```javascript
-import { DateTimePicker } from 'meteor/alonoslav:react-datetimepicker';
+import { DateTimePicker } from 'meteor/alonoslav:react-datetimepicker-new';
 
 export const DateTimePickerExample = (props) => {
   const hideOnInit = (calendarInstance) => calendarInstance.hide();
@@ -35,6 +35,6 @@ export const DateTimePickerExample = (props) => {
 
 ### Future works
 
--[ ] Add ability to register custom callbacks
--[ ] Write tests
--[ ] Convert to npm package
+- [ ] Add ability to register custom callbacks
+- [ ] Write tests
+- [ ] Convert to npm package
