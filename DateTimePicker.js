@@ -29,6 +29,10 @@ export class DateTimePicker extends React.Component {
     this.datepickerInstanse.options(options);
   }
 
+  componentWillUnmount() {
+    this.datepickerInstanse.destroy();
+  }
+
   render() {
     const { id, icon } = this.props;
 

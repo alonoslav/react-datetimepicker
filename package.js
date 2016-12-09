@@ -1,6 +1,6 @@
 Package.describe({
   name: 'alonoslav:react-datetimepicker-new',
-  version: '1.0.0',
+  version: '1.0.1',
   summary: 'React component for bootstrap datetimepicker',
   git: 'https://github.com/alonoslav/react-datetimepicker',
   documentation: 'README.md',
