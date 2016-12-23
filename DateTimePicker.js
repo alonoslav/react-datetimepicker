@@ -4,6 +4,8 @@ import $ from 'jquery';
 
 import './bootstrap-datetimepicker';
 
+const allowedInputTypes = ['text', 'button'];
+
 export class DateTimePicker extends React.Component {
   componentDidMount() {
     const { id, options = {}, getInstance, onDateChanged } = this.props;
@@ -33,19 +35,21 @@ export class DateTimePicker extends React.Component {
     this.datepickerInstanse.destroy();
   }
 
+  getInputType() {
+    const defaultInputType = 'text';
+
+    const { type = defaultInputType } = this.props;
+
+    return allowedInputTypes.indexOf(type) > -1 ? type : defaultInputType;
+  }
+
   render() {
-    const { id, icon } = this.props;
+    const { id, classNames } = this.props;
 
     return (
-      <div className="input-group date">
-        <input ref={id} id={id} type="text" className="form-control" />
-
-        {icon && (
-          <span className="input-group-addon">
-            <span className={icon} />
-          </span>
-        )}
-      </div>
+      <span className="date" style={{ position: 'relative' }}>
+        <input ref={id} id={id} type={this.getInputType()} className={classNames} />
+      </span>
     );
   }
 }
@@ -54,7 +58,8 @@ DateTimePicker.propTypes = {
   id: PropTypes.string.isRequired,
 
   options: PropTypes.object,
-  icon: PropTypes.string,
+  type: PropTypes.string,
+  classNames: PropTypes.string,
   getInstance: PropTypes.func,
   onDateChanged: PropTypes.func,
 };
