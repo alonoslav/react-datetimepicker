@@ -27,7 +27,7 @@ export const DateTimePickerExample = (props) => {
       id="exampleId"
       onDateChanged={(newDate) => console.log(newDate)}
       options={options}
-      getInstance={hideOnInit}
+      dateTimePickerMount={hideOnInit}
     />
   );
 };

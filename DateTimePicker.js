@@ -6,29 +6,44 @@ import './bootstrap-datetimepicker';
 
 const allowedInputTypes = ['text', 'button'];
 
+
+export const DateTimePickerStore = new Map();
+
+DateTimePickerStore.getInstanceById = function getInstanceById(id) {
+  return this.has(id) ? this.get(id) : false;
+};
+
+
 export class DateTimePicker extends React.Component {
   componentDidMount() {
-    const { id, options = {}, getInstance, onDateChanged } = this.props;
+    const { id, options = {}, dateTimePickerMount, onDateChanged } = this.props;
 
     const datepicker = $(this.refs[id]);
 
     datepicker.datetimepicker(options);
 
-    if (onDateChanged) {
-      datepicker.on('dp.change', (event) => onDateChanged(event.date.toDate()));
-    }
-
     this.datepickerInstanse = datepicker.data('DateTimePicker');
 
-    if (getInstance) {
-      getInstance(this.datepickerInstanse);
+    if (!DateTimePickerStore.has(id)) {
+      DateTimePickerStore.set(id, this.datepickerInstanse);
+    }
+
+    if (onDateChanged) {
+      datepicker.on('dp.change', (event) => onDateChanged(event.date.toDate(), id));
+    }
+
+    if (dateTimePickerMount) {
+      dateTimePickerMount(this.datepickerInstanse, id);
     }
   }
 
   componentWillUpdate(props) {
+    const { id, dateTimePickerUpdate } = this.props;
     const { options = {} } = props;
 
-    this.datepickerInstanse.options(options);
+    if (dateTimePickerUpdate) {
+      dateTimePickerUpdate(this.datepickerInstanse, options, id);
+    }
   }
 
   componentWillUnmount() {
@@ -60,6 +75,8 @@ DateTimePicker.propTypes = {
   options: PropTypes.object,
   type: PropTypes.string,
   classNames: PropTypes.string,
-  getInstance: PropTypes.func,
   onDateChanged: PropTypes.func,
+
+  dateTimePickerMount: PropTypes.func,
+  dateTimePickerUpdate: PropTypes.func,
 };
