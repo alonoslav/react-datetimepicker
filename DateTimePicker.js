@@ -62,7 +62,7 @@ export class DateTimePicker extends React.Component {
     const { id, classNames } = this.props;
 
     return (
-      <span className="date" style={{ position: 'relative' }}>
+      <span className="date">
         <input ref={id} id={id} type={this.getInputType()} className={classNames} />
       </span>
     );
