@@ -4,6 +4,7 @@ import $ from 'jquery';
 
 import './bootstrap-datetimepicker';
 
+// button will not work in iOS applications
 const allowedInputTypes = ['text', 'button'];
 
 
@@ -15,10 +16,16 @@ DateTimePickerStore.getInstanceById = function getInstanceById(id) {
 
 
 export class DateTimePicker extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.saveRef = this.saveRef.bind(this);
+  }
+
   componentDidMount() {
     const { id, options = {}, dateTimePickerMount, onDateChanged } = this.props;
 
-    const datepicker = $(this.refs[id]);
+    const datepicker = $(this.datepicker);
 
     datepicker.datetimepicker(options);
 
@@ -58,12 +65,22 @@ export class DateTimePicker extends React.Component {
     return allowedInputTypes.indexOf(type) > -1 ? type : defaultInputType;
   }
 
+  saveRef(refName) {
+    return element => (this[refName] = element);
+  }
+
   render() {
     const { id, classNames } = this.props;
 
     return (
-      <span className="date">
-        <input ref={id} id={id} type={this.getInputType()} className={classNames} />
+      <span className="date" style={{ position: 'relative' }}>
+        <input
+          ref={this.saveRef('datepicker')}
+          id={id}
+          type={this.getInputType()}
+          className={classNames}
+          onClick={() => this.datepickerInstanse.show()}
+        />
       </span>
     );
   }
